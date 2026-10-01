@@ -20,9 +20,9 @@ pipeline {
             steps {
                 echo "Push Docker Image to Docker Hub"
 
-                bat "docker tag kubdemoapp:v1 mersineelakantam/week-8:kubeimage1"
+                bat "docker tag kubdemoapp:v1 mersineelakantam/week-8:latest"
 
-                bat "docker push mersineelakantam/week-8:kubeimage1"
+                bat "docker push mersineelakantam/week-8:latest"
             }
         }
 
