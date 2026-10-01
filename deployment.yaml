@@ -16,4 +16,4 @@ spec:
         - name: kubedemoapp
           image: mersineelakantam/week-8:latest
           ports:
-            - containerPort: 5000
+            - containerPort: 5001
