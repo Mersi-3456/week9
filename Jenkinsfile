@@ -3,20 +3,36 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo "Build Docker image"
-                bat "docker build -t mypythonflaskapp ."
+                echo "Build Docker Image"
+                bat "docker build -t kubdemoapp:v1 ."
             }
         }
 
-        stage('Run') {
+        stage('Docker Login') {
             steps {
-                echo "Run application in Docker Container"
+                bat 'docker login -u mersineelakantam -p Ammu@9096'
+            }
+        }
 
-                bat "docker rm -f mycontainer >nul 2>&1 || echo Container does not exist"
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                echo "Push Docker Image to Docker Hub"
 
-                bat "docker run -d -p 5001:5001 --name mycontainer mypythonflaskapp"
+                bat "docker tag kubdemoapp:v1 mersineelakantam/week-8:kubeimage1"
+
+                bat "docker push mersineelakantam/week-8:kubeimage1"
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo "Deploy to Kubernetes"
+
+                bat 'kubectl apply -f deployment.yaml --validate=false'
+
+                bat 'kubectl apply -f service.yaml'
             }
         }
     }
